@@ -1,0 +1,90 @@
+1) what is Generative AI?
+A, AI that analyzes data B, AI that creates new content C, AI used only for robots D, AI used only for images
+
+Answer : B 
+
+2) What does an LLM primarily do?
+A, Predict next word/token B, Store file C, run operating systems D, Train GPUs 
+
+Answer : A 
+
+*************************************************************************************************************
+*************************************************************************************************************
+
+Lesson 1 : What is Generative AI?
+- Generative AI is a type of artifical intelligence that can create new content such as:
+  text, images, code, audio and video.
+- Instead of only analzing data, it generates new data.
+- Example:
+  Input - Write a shore story about a robot.
+  output - A robot woke up in a slient laboratory...
+- The AI genreated new text.
+
+Difference between AI, Machine Learning, and Generative AI
+
+Artifical Intelligence (AI) : AI means machines performing tasks that require human intelligence.
+Examples: speech recogination, recommendations systems, self-driving cars.
+
+Machine Learning (ML) : Machine learning is a subset of AI where systems learn patterns from data.
+Example : email spam detection 
+the system learns from: Spam emails, Non-spam email.
+Then it predicts whether a new email is spam.
+
+Generative AI : Generative AI is a type of machine learning that creates new content.
+Examples:  chatbots, AI art, code genertion, document summarization 
+
+Real Generative AI Systems:
+- Some well-known systems include: ChatGPT, Gemini, Claude 
+- This systems are powered by Large Lanaguage Models (LLMs).
+
+what is a Large Language Model (LLM)?
+- A Large Language Model is a neutral network tranied on huge amounts of text to understand and generate lanuage.
+- Example training data: Books, Websites, Articles, Documentation, Code.
+- After training the model can:
+  - answer questions, summarize text, translate languages, generate code 
+
+- How LLMs work (Simplied) 
+	When you type a prompt: Explain Docker 
+	The model predicts the next word repeatedly.
+	Example: Docker -> is -> a -> container -> platform -> used -> to -> ... 
+	So the model works like a very advanced autocomplete system.
+
+- Important Idea: Tokens
+  - LLMs do not read full sentences.
+  - They read tokens.
+    Example sentence: Docker makes deployment easier.
+	Tokens might be: Docker | makes | deployment | easier 
+	The AI processes text token by token 
+
+Why Gnerative AI Became Powerful recently 
+Three reasons:
+1, Massive datasets : Training data from the Internet.
+2, Powerful GPUs : Graphics processors allow faster training.
+3, Transformer architecture : Most Modern AI models use the Transformer architecture introduced by Google.
+                              - Models using this architecture include: GPT, BERT 
+							  
+Where Generative AI is used:
+Examples in real companies:
+Customer Support : AI chatbots answer user questions.
+coding assistance : Develoeprs use AI to generate code. Example tools : GitHub Copilot 
+Document Summarization : AI summarizes large documents automatically.
+Knowledge search : Companies build AI knowledge assitants for internal data.
+
+Key Concept for Certification:
+- Most certification exams test this understanding:
+- Generative AI systems usually contain: User Prompt -> LLM Model -> generated output. 
+- Some times they also include: vector Database, External knowledge , AI agents.
+
+
+
+ 
+
+
+
+
+
+    
+  
+
+          
+  

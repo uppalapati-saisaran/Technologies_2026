@@ -1,0 +1,156 @@
+1) A Company wants a storage service that is cheap, durable, and stores unlimited files.
+
+Answer : Amazon S3 
+
+2) A company wants its application to continue running even if one data center fails.
+  what should they do?
+A, Deploy application in one Availability Zone.
+B, Deploy application in multiple Availability Zone.
+C, Deploy application in one EC2 server.
+D, Store application on S3 only.
+
+Answer : B 
+- Deploying the application in multiple Avaialability Zones provides high availability.
+- In AWS, each Availiability Zone is an independent data center within a region.
+  if one fails, the others continue running your application.
+- For example, inside the Canada (Central) region you might have multiple AZs. 
+  Region: Canada (Central) 
+  AZ1 -> Application Server 
+  AZ2 -> Application Server 
+  AZ3 -> Backup / Scaling 
+  -> If AZ1 fails, traffic can still go to AZ2 or AZ3.
+- To distribute traffic between these servers, AWS commonly uses Elastic Load Balancing.
+- Servers themselves run on Amazon EC2.
+- So a typical highly available architecture looks like:
+  Users -> Load Balancer -> EC2 (AZ1) EC2 (AZ2).
+- This design is very common in exam.
+
+3) A startup wants to run a web application on a virtual server in AWS. Which AWS service should they use?
+A, Amazon S3 
+B, Amazon EC2 
+C, Amazon DynamoDB 
+D, Amazon SQS 
+
+Answer - B is the right answer 
+
+- To run a virtual server in AWS, you use Amazon EC2.
+- Think of EC2 as renting a computer in the cloud.
+- Example: your laptop -> Internet -> EC2 server (vitual machine) -> Runs website / Application 
+- so if a company says: we need a serverto run our applcations - The AWS answer is usaully EC2.
+
+Amazon S3 - This is storage, not a server. 
+- Used to store files like: images, videos, backups, logs 
+
+Amazon DynamoDB - This is NoSQL database, not a server.
+
+Amazon SQS - This is a message queue used for micorservices communication.
+
+********************************************************************************************
+
+Lesson 1: What is cloud computing?
+
+- Before AWS existed, companies had to buy physical servers. 
+  Example company setup:
+  Office 
+  --> Server Room 
+      --> Web Server 
+	  --> Database Server 
+	  --> Backup Server 
+- Problmes with this model: Expensive hardware, Maintenance cost, If server crashes -> application down, Hard to scale when traffic scales.
+
+Cloud Solution:
+
+- Cloud providers give servers on the Internet instead of physical machines.
+- The biggest cloud provider is Amazon Web Services.
+- With AWS you can create: Servers , Databases, Storage, Networking, AI services 
+
+Lesson 2: AWS Global Infrastructure 
+
+- AWS has data centers around the world.
+- Three key terms appear many times in the exam.
+
+1, Region:
+- A Region is a geographical area where AWS has data centers.
+- Example: US East (N. Virginia) , Canada (Central), Asia Pacific (Mumbai) 
+- each region is separate.
+  Example:
+  Canada region 
+  --> Data Centers.
+  
+2, Availability Zone (AZ)
+- Inside every Region there are multiple Availability Zones.
+- Each AZ is a separate data center.
+- Example:
+  Region: Canada Central 
+       AZ1(Data Center)
+	   AZ2(Data Center)
+	   AZ3(Data Center) 
+- Why AWS does this:
+  - If one data center fails.
+  - The application can run in another AZ.
+  - This is called High Availability.
+
+3, Edge Locations:
+- Edge locations are used by Amazon CloudFront.
+- These are small centers around the world that cache context.
+- Example: User in Canada -> content served from nearby edge location -> faster website.
+
+Real Example (Architecture)
+- Suppose a company runs a website.
+- Architecture could look like this:
+  Users -> CloudFront (Edge location) -> Load Balancer -> EC2 Server (AZ1), EC2 Server (AZ2) -> Database 
+- Important services here:
+  1) Amazon EC2 -> servers 
+  2) Elastic Load Balancing -> distrbute traffic
+  3) Amazon RDS -> database 
+  4) Amazon CloudFront -> global CDN 
+- This architecture is hightly available, which AWS exams love.
+
+****************************************************************************************************************
+
+Lesson 2 -- Amazon EC2 
+
+- one of the most important services in AWS is Amazon EC2.
+- EC2 simply means: Elastic Compute Cloud = virtual Servers in AWS.
+- Instead of buying a physical server, you create a virtual machine in the cloud.
+- Example : Your Laptop - Internet - AWS EC2 server - Runs your application
+
+What can you run on EC2?
+- Almost anything: Websites, Backend APIs, Databases, Microservices, Maching learning apps 
+- Example:  EC2 Server -> Linux OS, Nginx Web Server, Application Code 
+
+Important EC2 Concepts (Exam loves these)
+1, Instance : An instance is simply a virtual server.
+   Example :  EC2 Instance = virtual Machine 
+
+2,Instance Type : Different servers for different workloads.
+  Examples: t3.micro -> small server (cheap), m5.large -> medium workload , c5.large -> compute heavy apps 
+
+3, Elastic IP : An Elastic IP is a static public IP address you can attach to an EC2 instance,
+   Service: Amazon EC2 
+   
+4, Security Group : A Security Group acts like a firewall.
+   -> Example rules: Allow: HTTP (80), HTTPS (443), SSH (22) 
+   -> Security Groups control who can acces your EC2 instance. 
+
+Real world Example: A company hosts a website 
+Architecture : Users -> Internet -> EC2 instance -> website ( But this is not scalable)
+- so AWS recommends:  Users -> Load Balancer -> EC2 (AZ1) EC2(AZ2) ( this makes the system highly available and scalable.
+
+
+   
+     
+   
+
+
+
+
+    
+  
+  
+
+    
+	   
+  
+ 
+

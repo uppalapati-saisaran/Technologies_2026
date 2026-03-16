@@ -1,0 +1,637 @@
+
+Unity Basics (Core Concepts) 
+
+- "Unity basics" means the fundamental concepts of the Unity engine that every develper must understand. 
+- These are the building blocks of every Unity project 
+  - Scene, Game Object, Components, Transform, Scripts, MonoBehaviour, Pretab, Physics System, Input System, Rendering
+    Assets Folder, Insspector.
+
+- Unity Mental Model 
+   Scene
+   |_______ GameObjects 
+            |______ Components 
+                    |______scripts (MonoBehavior) 
+
+1, Scene: 
+
+- Meaning: A Scene is a level or screen of your game.
+  Example: Main Menu, Gameplay level, settings screen 
+           - Contains all objects of that part of the game.
+
+2, GameObject:
+
+- Meaning: Anything that exists in a scene.
+  Example: Player, Enemy, Camera, Light, UI Button 
+           - Emtpy container that holds components.
+
+3, Components:
+
+- Meaning: Behaviours or features added to GameObjects.
+  Example: Transform, Rigidbody, Collider, AudioSource, script 
+           - Components give functionality.
+		   
+4, Transform:
+
+- Every GameObject has it.
+- Controls : Position, Rotation, Scale 
+- Think: Transform = object location in world 
+
+5, Scripts (C#) 
+
+- Used to control game logic.
+- Example: Player, Score system, AI behaviour 
+           Usually inherit from : Monobehaviour 
+		   
+6, MonoBehavour:
+
+- Base class for Unity scripts.
+- Provides lifecycle functions: Awake() , start(), update(), FixedUpdate() 
+
+7, Prefab:
+
+Meaning: Reusable GameObject template.
+Example: Enemy template reused many times. 
+         Change prefab -> updates all instances. 
+		 
+8, Physics System:
+
+Handles : Gravity, Collisions, Forces 
+Main components : Rigidbody, Collider 
+
+9, Input system:
+
+Reads player actions: Keyboard, Mouse, Controller, Touch 
+
+10, Rendering:
+
+- Responsible for drawing objects on screen.
+- Includes: Camera, Materials, Meshes, Lighting 
+
+11, Assets Folder: 
+
+Project resources: Scripts, Scenes, Textures, Audio, Prefabs 
+
+
+12, Inspector 
+
+Editor panel used to :  view components, assign references, change values without code. 
+
+************************************************************************************************************
+
+Scene:
+
+- Scene = techincal concept 
+- Level / Screen -= game design concept 
+- They are related but not always the same. 
+
+- Scene is a container that holds: GameObjects, Camera, Lights, UI, Scripts. 
+  Think: Scene =  a file that Unity loads/unloads.
+  
+- Example: MainMenu.unity, Level1.unity, Settings.unity 
+
+- Level :
+  - Level means: Stage of gameplay, Challenge area, Mission 
+  - Example: Level1 (easy enemies) Level2 (hard enemies)
+    - Usually one level = one scene BUT not required. 
+	
+- Screen :
+  - A screen means what the players sees.
+    Example: loading screen, pause screen, Game Over screen, menu screen.
+  - Often implemented as: separate scene, or UI inside same scene.
+  
+Concept     Type          Unity Meaning 
+Scene       Technical     Unity container file  (unity file)
+Level       GamePlay      Game stage ( Game progress )
+Screen      UI/UX         Visual state shown to player ( what player sees ) 
+
+Real Game Examples:
+Example 1:
+
+scene = Level1 
+scene = Level2 
+scene = MainMenu
+
+Here: scene = level = screen 
+
+Example 2:
+
+Single Scene:
+
+GamePlayScene : Gameplay UI, pause UI, GameOver UI
+Here: 
+- 1 scene 
+- Multiple Screens
+- Possible multiple Levels loadsed dynamically.
+
+******************************************************************************************************
+
+What GameObjects Are Available in a Scene?
+- Simple Meaning : A scene contains all GameObjects that exist in that part of the game.
+- Anything visible or functional in the game world is a GameObject. 
+
+- Common GameObjects Found in a Scene  
+
+1, Camera 
+   - Responsible for rendering what player sees. 
+   Example: Main Camera 
+   Without camera -> nothing visible.
+   
+   - Layman Meaning: The Camera is the player's eyes in the game.
+   - If the camera cannot see something -> Player cannot see it. 
+   
+   - Functionality of Camera (What it Does)
+     1, Renders the Scene 
+	 - The camera:
+	   - Captures objects in the scene.
+	   - Sends them to the screen.
+	   - Scene -> Camera -> Screen 
+	   - Without camera: Game runs but nothing is visible. 
+	   
+	 2, Defines Player View 
+	 - Controls:
+	   - What players see 
+	   - From where they see.
+	   - How wide they see 
+	   Example: First-person view, Third-person view, Top-down view.
+	   
+	 3, Controls Projection 
+	 - Two main modes:
+	   1, Prespective:
+	      - Real-world depth 
+		  - Objects for away look smaller 
+		  - Used in 3D games.
+	   2, Orthograhic:
+	      - No depth scaling.
+		  - Used in 2D games. 
+		  
+	 4, Layer-Based Rendering 
+     - Camera can choose what to show.
+      Example: Show gameplay objects, Hide UI layer, Show only minimap objects.
+
+     5, Depth Ordering (Multiple Cameras)
+     - Multiple cameras can render together.
+     Example: Main camera -> world, UI camera -> overlay 
+
+     6, Post Processing Effects
+     - Camera applies visual effects.
+     - Bloom, Motion blur, Color correction.
+
+     7, Audio Listener (Usually Attached)
+     - Camera often has: AudioListener 
+     - Determines where sound is heard from.
+
+   - Visibility of Camera (What it can see) 
+     Camera sees objects based on 
+     1, Position & Rotation 
+        if object is in front -> visible 
+        Behind camera -> invisible.
+		- Transform position = Where the camera stands
+		- Rotation = Where the camera looks 
+		- (0,0,0) = City Center. All other positions are measured from this point.
+		- Scale is always (1,1,1). How big it is. 
+		  If the GameObject has: No Mesh Renderer, No Sprite Renderer then scaling changes nothing visually. 
+
+     2, Field of View 
+        Defines viewing angle.
+		- Small FOV -> zoomed in 
+		- Large FOV -> wide view 
+		
+	 3, Clipping Planes 
+	    Camera only renders objects within range:
+		- Near Clip plane 
+        - Far Clip plane 
+        Outside range -> invisible.
+ 
+     4, Layers (Culling Mask)
+        Camera renders only selected layers.
+
+     5, Object Rendered Enabled 
+        Object must have:
+        - Mesh Renderer / SpriteRenderer enabled 
+
+    Simple Diagram 
+    Visible Area
+       
+    Camera 
+    Only objects inside the cone are rendered.
+
+The Camera GameObject renders the scene from a specific viewpoint and determines what the player see.
+Visibility depends on camera position, field the view, clipping planes, and layer settings.
+
+Why nothing visible in Scene?
+1, No camera 
+2, Camera facing wrong direction.
+3, Object outside clipping range.
+4, Layer not included in culling mask.
+
+**********************************************************************************************************************
+
+What is Clear Flags in Unity Camera?
+A, Clear flags decide what the camera does with the screen BEFORE drawing a new frame.
+
+In simple words,
+Should the camera erase the previous picture or keep it?
+
+Every frame unity redraws the scene.
+Clear Flags control how the old image is cleared.
+
+Real-Life Analogy
+
+- Image drawing on a whiteboard 
+  - you can wipe the board fully.
+  - wipe only background fully.
+  - or keep previous drawing and add more. 
+  
+Clear Flags = how you clean the board before drawing again. 
+
+Clear Flag Options:  Select Main Camera -> Inspector -> Camera -> Clear Flags
+
+You'll see options:
+
+1, skybox (default)
+Mostly commonly used.
+- Camera clears screen and draws the sky/envirnoment first.
+Example: Blue sky, clouds, Environment background.
+- Used in normal 3D games.
+Layman meaning: Start with sky, then draw objects.
+
+2, Solid Color 
+- Clears screen with a single color.
+Example: Black background, White background, Any color you choose.
+Used for: UI scene, 2D games, menus.
+Layman meaning : Paint background with one color before drawing.
+
+3, Depth Only 
+- Clears only depth information, keeps color from previous camera.
+Used when: Multiple cameras render together.
+Example : 
+- Main camera renders world
+- Second camera renders UI or weapon 
+
+4, Don't clear 
+- Camera does not clear anything.
+
+Previous frame remains:
+- Used rarely for:
+  - special effects.
+  - trails.
+  - motion painting effects.
+Layman meaning : Keep drawing on top of old frame.
+
+***************************************************************************************************
+
+What is Background in Unity Camera?
+A, Background = the color shown by the camera when nothing else is visible.
+Simple meaning: It is the default color behind all objects in the scene. 
+Camers Background is the color used to clear the screen before rendering objects when clear flags is set to solid color. 
+
+***************************************************************************************************
+
+What is Camera Culling Mask in Unity?
+
+- Culling Mask decides which objects the camera is allowed to see.
+- Simple meaning: The camera can ignore some objects and render only selected layers.
+
+Real-Life Analogy:
+- Imagine wearing special glasses:
+  - Glass A -> shows only players.
+  - Glass B -> shows only enemies
+  - Glass C -> shows only UI 
+  Object exist in the world, but your glasses decide what you see:
+  - Camera = glasses
+  - Culling Mask = filter 
+  
+How it works:
+- Every GameObject is Unity belongs to a Layer.
+Examples:  Default, UI, player, Enemy, Background, Water 
+
+Camera checks:   Is object's layer enabled in culling mask?
+YES -> Render it.
+No -> Ignore it.
+
+How do you decide which object goes into which layer?
+- Layers are used to control interaction, visibiity, and physics behaviour.
+In simple words: Put objects in the same layer if they should behave the same way.
+
+Main Reasons to Use Layers:
+
+- Unity layers are mainly used for:
+
+Purpose - Example 
+Camera visibility - UI visible only to UI camera.
+Physics collisions - Player collides with ground but not UI 
+Raycasting - Shooting detects enemes only.
+Rendering control - Hide backgroud objects.
+
+Typical Game Layer Setup 
+Most unity projects follow something like this:
+
+Layer Name - Objects placed here - Why 
+
+Default - Normal objects  -  General usage 
+
+Player - Player Character - Special collision rules 
+
+Enemy  - Enemies - Target detection  
+
+Environment - Ground, walls - Physics interaction 
+
+UI - Buttons, HUD   -  UI camera only 
+
+IgnoreRaycast -  Decorations - Not clickable 
+
+Water - Water surfaces - special effects 
+
+Objects are grouped into layers based on shared rendering, physics, or intersection behaviour so unity systems can selectively process them. 
+
+*****************************************************************************************************************************************
+
+What is Projecton in Unity Camera?
+- Projection decides how the camera sees the world. 
+Simple meaning : It controls whether objects look realistic (3D depth) or flat (no depth)
+
+Unity has two projection types:
+1, perspective 
+2, Orthographic 
+
+1, Perspective Projection (Real human vision) 
+Lay man meaning:  Objects far away look smaller, Objects near look bigger.
+                  Exactly like how your eyes see the real world.
+				  
+Real-Life example: 
+Standing on a road: 
+- Near car -> looks big 
+- Far Car -> looks tiny 
+But both cars are same size in reality.
+
+This is perspecive. 
+
+Used in : FPS games, Third-person games, Racing game, Most 3D games.
+
+Key Property: Field of View (FOV) controls how wide you see.
+
+2, Orthographic Projection (Flat View)
+
+Layman Meaning: Distance does NOT change size.
+Near or far - objects look SAME size.
+
+Real-Life Example: Like looking at:  architectural blueprint, chess board, map view. 
+No depth illusion 
+
+Used in:  2D games, strategy gamees, Top-down games, UI views, Mini maps
+
+Side by Side Comparsion:
+
+Depth feeling   -   Yes   -   No
+Far objects smaller -  Yes - No 
+Realistic look      -   Yes -  Flat 
+Used for            - 3D games  - 2D/UI 
+Main setting -      Field of view  - Size 
+
+Perspective = Person view (real eyes)
+Orthographic = office drawing (technincal view)
+
+Projection defines hwo a camera converts 3D objects into a 2D image, eith with depth perpective or flat orthographic view.
+
+*************************************************************************************************************************
+ 
+Perspecive - FOV Axis 
+
+- FOV Axis decides whether the camera's field of view is controlled by the vertical direction or horizontal direction.
+- Simple meaning: It tells Unity which side of the screen controls zoom.
+
+What is FOV?
+FOV (Field of view) = how wide the camera can see.
+Like opening or closing your eyes wider.
+
+FOV Axis Options:
+- In camera -> Perspective mode you'll see.
+FOV Axis : vertial or Horizontal 
+
+Layman Explanation:
+Imagine a camera frame:
+   Screen 
+- you can measure viewing angle using: height (up-down) , width (left-right)
+- FOV Axis decides whcih one stays fixed. 
+
+Comparsion 
+
+Setting          What stays same       What changes 
+Vertical FOV     Height view          Width expands 
+Horizontal FOV   Width View           Height expands 
+
+************************************************************************************************************************************
+
+What is Field of View (FOV)?
+- Field of views = how wide the camera can see.
+- Simple meaning : It controls how much of the world fits into the camera view.
+
+***********************************************************************************************************************************
+
+What are Clipping Planes in Unity?
+A, Clipping planes define the distance range where the camera can see objects.
+Simple meaning: The camera can only see objects that are not too near and not too far.
+Anything outside this range becomes invisible.
+
+1, Near Clipping Plane 
+- Minimum distance camera can see.
+- Objects closer than this disapper. 
+  Near = 0.3 
+  Anything closer than 0.3 units -> invisible.
+  
+2, Far Clipping Planes 
+- Maximum distance camera can see.
+- Object beyond this distance disapper 
+  Far = 1000
+- Objects farther than 1000 units -> invisible.
+
+- Camera renders only inside this zone. 
+
+***************************************************************************************************************************************
+
+Viewport Rect changes: Where camera renders on the screen. Not camera position in world.
+
+(0,1) top-left -----------  (1,1) top-right 
+(0,0) bottom-left --------- (1,0) bottom-right 
+
+***************************************************************************************************************************************
+
+What is Camera Depth?
+A, 
+- Depth decides which camera draws LAST on the screen.
+Think of it like painting layers.
+
+Depth    What Happens 
+Smaller number Draws first 
+Bigger number Draws later 
+Draws later  - Overrides previous camera 
+
+*****************************************************************************************************************************************
+
+Rendering Path : the method Unity uses to draw objects and lighting on the screen.
+
+Think of it like : Different ways a painter can paint the same picture.
+You still see the same scene, but.
+- speed changes.
+- lighting quality changes.
+- performance changes. 
+
+Types of Rendering Paths in Unity:
+
+1, Forward Rendering 
+- Unity lights objects one by one.
+  Objects-> Apply lights -> Draw 
+- Characteristics : 
+  Fast, Mobile friendly, Simple Scenes. 
+  Many lights = slower.
+  
+2, Deferred Rendering 
+- Unity first draws geometry, then applies lighting later.
+step 1: Draw shapes.
+step 2: Apply all lights together
+- Characteristics 
+  Handle many lights efficiently.
+  Better realistic lighting.
+   x - Needs stronger GPU 
+   x - Not ideal for mobile. 
+   
+3, Legacy Vertex Lit (old)
+- Very old method.
+- Lighted calculated per vertex only.
+- Low quality -> rarely used now.
+
+How unity chooses Rendering Path?
+- Camera setting: Rendering Paht = Use Graphics settings.
+means Follow project graphics settings.
+
+****************************************************************************************************************************************************
+
+Target Texture:
+- Instead of showing camera output on the screen, send it into an image (texture).
+Normally:
+Camera -> Screen (Monitor) 
+With Target Texture:
+Camera -> Texture (Image) -> Used somewhere else 
+
+After camera renders into Target Texture, how is that texture used(called) later?
+
+- When you create a Render Texture, it becomes a normal asset reference in Unity.
+So later you can access it:
+- From Insptector
+- From UI 
+- From Materials 
+- From C# scripts
+
+A real-time framebuffer you can reuse like a normal texture. 
+
+***************************************************************************************************************************************************
+
+Occlusion Culling means Unity does NOT draw objects that are hidden other objects.
+If you cannot see something, Unity avoids rendering it to save performance.
+
+Without Occlusion Culling:
+- Unity renders EVERYTHING.
+  Visible objects.
+  Hidden objects x (still rendered)
+  GDU workload = HIGH 
+  
+With Occlusion Culling 
+- Unity renders only.
+  objects visible to camera.
+  Hidden objects = ignored
+  Performance = BETTER 
+  
+****************************************************************************************************************************************************
+
+What is HDR?
+- High Dynamic Range -> Unity can handle very bright and very dark light values at the same time without losing detail.
+
+With HDR Enabled -> Unity stores more light information. 
+
+****************************************************************************************************************************************************
+
+MSAA = Multi-Sample Anti-Aliasing 
+It means: A technique used to remove jagged edges (stair-step edges) from objects.
+
+Problem without MSAA: 
+- When Unity draws objects, edges may look like:
+- Edges look zig-zag/pixelated.
+- This is called: Alasing.
+
+With MSAA Enabled:
+- Unity smooths edges.
+- Edges become smooth and natural.
+
+******************************************************************************************************************************************************
+
+Allow Dynamic Resolution?
+- Unity can automatically change the game resolution while running to keep performance smooth.
+
+Real Life example:
+Imagine watching YouTube:
+- Internet slow -> video quality drops to 480p 
+- Internet fast -> video increase to 1080p.
+
+Unity does the same for games.
+
+What happens in Unity?
+Normally:
+
+Game always renders at fixed resolution.
+Example : 1920x1080 
+
+With Dynamic Resolution:
+- High GPU load -> resolution reduces.
+- Low GPU load -> resolution increases.
+
+Player get smooter FPS.
+
+********************************************************************************************************************************************************
+
+What is Target Display?
+- Target display tells Unity: On which monitor should this camera show its output.
+
+********************************************************************************************************************************************************
+
+Audio Listener - the ears of the player in the game.
+It tells Unity: From where should the game hear sounds.
+
+********************************************************************************************************************************************************
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+ 
+
+
+
+  
+	   
+
+
+
+
+
+
+
+ 
+
+		   
+  

@@ -1,0 +1,89 @@
+Below is a concise, practical preparation plan tailored to building and maintaining a Unity + C# project like the one you shared (reels, watermarks, providers pattern).
+Read it, follow the hands‑on steps, and use the checkpoints to measure confidence.
+
+1.	Core concepts to learn (priority order)
+•	Unity basics
+•	Scenes, GameObjects, Components, Prefabs
+•	Inspector and serialization: [SerializeField], public vs private fields
+•	Transform, parenting, world vs local coordinates
+•	C# fundamentals for Unity
+•	Classes, access modifiers, properties, lists/collections
+•	Delegates, events, Action/Func, lambdas
+•	Basic async patterns: coroutines (IEnumerator) vs async/await
+•	MonoBehaviour lifecycle
+•	Awake, OnEnable, Start, Update, FixedUpdate, LateUpdate, OnDestroy
+•	Prefabs & instantiation
+•	Creating, updating, and pooling prefabs at runtime
+•	Scene & object management
+•	Scene loading, object persistence (DontDestroyOnLoad)
+•	Editor & tooling
+•	Inspector workflows, custom editor scripts, ScriptableObjects for data
+•	Architecture & patterns used in your project
+•	Provider pattern (data providers), GameCycle pattern
+•	MVC/MVVM-ish separation: presentation vs providers vs core
+•	Dependency injection (conceptual)
+•	Unity UI & animation
+•	UI system (Canvas, RectTransform), Animator basics, animation events
+•	Debugging & logging
+•	Breakpoints, Debug.Log, 3rd‑party loggers (e.g., GSNLogger)
+•	Use Attach to Unity in Visual Studio to debug
+•	Performance basics
+•	Garbage collection, object pooling, profiling (Unity Profiler)
+•	Build & CI basics
+•	Player settings, build pipeline, platform-specific concerns
+•	Source control & project hygiene
+•	Git, .gitignore for Unity, assembly definition files (.asmdef)
+
+2.	Project-specific items to understand
+•	How the reel system is implemented (look at ReelContainer, reel objects lists)
+•	How watermarks and DetonatingWildWaterMark are defined and where they live (presentation vs provider namespaces)
+•	Event flow for game cycle: where OnGameCycleData is invoked and how recovery is handled
+•	Logging used: GSNLogger.GlobalLogger — learn how it’s configured and used
+•	Any asmdef files controlling namespace/assembly boundaries
+3.	Suggested 4-week hands‑on plan Week 1 — Foundations
+•	Set up environment: Unity version, Visual Studio 2022 as external editor
+•	Create Git repo in C:\SGF_Games\UnityGames and add Unity .gitignore
+•	Walk small tutorials: create simple scene, prefab, basic script that moves an object Checkpoint: Can run scene, set breakpoints, and hit them from VS.
+
+Week 2 — Project anatomy & components
+•	Inspect project: find ReelContainer, DetonatingWildWaterMark, providers
+•	Implement a tiny prototype: two GameObjects swapping positions (mimic ReelSwitcher)
+•	Learn coroutines and event handlers by wiring up a mock game cycle Checkpoint: Able to toggle reels and observe logs, and understand where code runs.
+
+Week 3 — Systems & architecture
+•	Implement a provider-script pair (ScriptableObject provider or simple class) to feed data to presentation
+•	Add unit-testable logic where possible (pure C# classes)
+•	Create prefabs for watermarks and instantiate / enable/disable via controller Checkpoint: Watermark spawn/enable/disable works; provider supplies values.
+
+Week 4 — Polish & tooling
+•	Profile and fix any GC spikes, implement pooling for frequently created objects
+•	Add basic editor tooling or validation (e.g., ensure lists have equal lengths in ReelSwitcher)
+•	Create .editorconfig and CONTRIBUTING.md for consistent style Checkpoint: Project builds, basic tests pass, repository and docs exist.
+4.	Practical exercises (small, focused)
+•	Exercise A: Make a prefab with a numeric label. Instantiate it and set the label value at runtime.
+•	Exercise B: Recreate ReelSwitcher.SetReels logic in a minimal scene (two lists of objects), toggle between base/fever.
+•	Exercise C: Implement a provider that raises an event when a game cycle changes and subscribe from a controller.
+•	Exercise D: Introduce pooling for watermark prefabs and measure GC with profiler.
+5.	Tools & VS workflow tips
+•	Set Visual Studio as Unity's external script editor (Unity → Preferences → External Tools)
+•	Use Attach to Unity (Debug menu) to hit breakpoints in editor play mode
+•	Use Unity Profiler (Window → Analysis → Profiler) and attach it while running
+•	Use Git from command line or VS Git tools and keep commits small and descriptive
+6.	Common pitfalls & quick fixes
+•	Namespace mismatch: ensure using and file namespace match the type locations (you saw this already)
+•	Serialized field nulls: prefab/scene references missing in Inspector — validate in Awake/Start
+•	Index out-of-range in lists: validate list sizes (example in ResetReelLocations)
+•	Excessive allocations in Update — avoid allocating in hot paths
+7.	Recommended learning resources
+•	Unity Learn: beginner projects and tutorials (search Unity Learn official)
+•	Microsoft Learn / C# docs: basics of C#, delegates, events
+•	Unity Scripting API: for MonoBehaviour, Coroutines, Prefabs
+•	Unity Profiler docs and best practices articles
+8.	Immediate next steps for you (do these now)
+•	Initialize Git repo in C:\SGF_Games\UnityGames and add Unity .gitignore
+•	Open the project in Unity, set Visual Studio as external editor, and run a scene
+•	Inspect the files you shared (WaterMarkController.cs, ReelSwitcher.cs) and confirm references in Inspector
+•	Create a short task list for Week 1 from the plan above
+If you want, I can:
+•	Generate a checklist file (CONTRIBUTING.md and .editorconfig) tailored to this repo style
+•	Walk you step‑by‑step through Exercise B (reel switching prototype) and provide code snippets Tell me which follow-up you want to start with.

@@ -1,0 +1,279 @@
+1)  Which Docker component is used to create containers?
+A, Dockerfile  B, Docker Image C, Docker Engine D, Docker Volume 
+Answer : B - Correct! 
+Why?
+A Docker image is the template used to create containers.
+Think of this: 
+Image -> Blueprint 
+Container -> Running Instance 
+Example:
+docker run nginx 
+What happens internally:
+1, docker looks for the ngix image.
+2, If not found -> downloads from Docker Hub.
+3, creates a container from the image.
+4, Runs the container.
+ 
+Why the other options are wrong?
+A, Dockerfile : used to build an image, not run containers.
+   Example : docker build -t myapp . 
+   
+C, Docker Engine : The software that runs Docker 
+   It manages: images, containers, networks, volumes.
+
+D, Docker Volume : used for persistent storage.
+   Cantainer are temporary, but volumes store data permanently.
+
+************************************************************************************
+
+2) Which command shows only running containers?
+A, docker ps B, docker container ls -a C, docker list D, docker images 
+What is your answer?
+Answer : A - Correct 
+What it does 
+Show only running containers.
+Example Output:
+Container ID      Image     Command     Status        Ports 
+d45f8a12         nginx     nginx -g     up 2 minutes  80/tcp
+
+docker ps -a -> All continers (running + stopped) 
+docker images -> List of images.
+docker stop -> Stop container 
+
+*************************************************************************************
+
+3) Spoon-fed real Scenerio (Production)
+Developer runs : docker run -d nginx 
+Now they want to see the running containers.
+They run: docker ps 
+Docker shows the running container.
+
+*************************************************************************************
+
+4) Which command is used to download an image from Docker Hub without running it?
+A, docker get nginx B, docker pull nginx C, docker download nginx D, docker fetch nginx 
+
+Answer: B 
+- docker pull nginx : This command downloads an image from Docker Hub without running it.
+What happens internally.
+- When you run: docker pull nginx 
+  - Docker :
+    1, Connects to Docker Hub.
+    2, Finds the nginx image.
+    3, Downloads image layers.
+    4, Stores them locally. 
+    - Now you can run it later : docker run nginx 
+Example:
+Step 1 - Pull image 
+docker pull unbuntu 
+step 2 - Check downloaded images 
+docker images 
+Output example:
+REPOSITORY      TAG    IMAGE ID 
+ubuntu         latest  2ca708c1c9cc 
+nginx          latest  605c77e624dd 
+
+****************************************************************************************
+
+5) Important concept (Exam Favorite)
+Docker images are built in layers.
+
+Example : Base OS layer, Libraries layer, Application layer 
+Benefits : Faster downloads, resuable layers, efficient storage.
+
+*****************************************************************************************
+
+6) Which command creates and starts a container from an image?
+A, docker start nginx  B, docker create nginx C, docker run nginx D, docker launch nginx 
+
+Answer:  C 
+docker run nginx - This command creates AND starts a container from an image.
+What happens internally when you run this command:
+1, Checks if the ngix image exists locally.
+2, if not -> downloads from Docker Hub 
+3, Creates a container from the image.
+4, Start the container
+So docker run = docker pull (if needed) + docker create + docker start 
+
+Why other options are wrong:
+A, docker start nginx 
+- Starts an existing container, not a new one.
+Example: docker start container_id 
+
+B, docker create nginx 
+- creates container but deos not start it.
+
+D, docker launch nginx - Not a valid Docker command 
+
+7) Which component executes Docker commands and manages container?
+A, Docker client B, Docker Daemon  C, Docker Registry  D, Docker Image 
+
+Answer : B 
+Why ?
+- The Docker Daemon is the core engine that actually performs the work.
+- when you type a command like : docker run nginx
+- The process looks like this: Docker client -> Docker Daemon -> Container created
+What the Docker Daemon does:
+The Docker Daemon: Builds images, runs containers, manages networks, manages volumes, and communicates with registers like Docker Hub.
+
+Component    Purpose 
+Docker client    where users run commands 
+Docker Daemon    Executes commands and manage containers.
+Docker Registry  Stores image 
+Docker Image     Template for containers 
+Container        running instance of image.
+
+********************************************************************************************************************************
+
+8) which Docker network is the default network created automatically?
+A, host B, overlay C, bridge D, none 
+
+Answer: C 
+- The bridge network is the default network created by Docker.
+- when you run : docker run nginx 
+- Docker automatically attaches the container to the bridge network.
+- container A -> container B -> Docker Bridge Network 
+- Containers inside the same bridge network can communicate with each other using IP addresses or container names.
+
+Check Docker Networks : docker network ls 
+Example Output: 
+Network ID     NAME    DRIVER 
+123abc         bridge   bridge 
+456def         host     host 
+789ghi         none     null 
+
+host : Container shares the host machine network. 
+Example - docker run --network host nginx 
+
+Overlay : Used in multi-host environments like Docker Swarm. 
+
+none : Container has no network access.
+
+********************************************************************************************************************************
+
+9) Which Docker command is used to build an image from a Dockerfile?
+A, docker create  B, docker build C, docker make  D, docker image create 
+
+
+
+
+*********************************************************************************************
+
+*********************************************************************************************
+- What is Docker?
+A,
+- Docker is a container platform.
+- Think like this:
+  - Normally when we install sofware 
+    - Install OS
+    - Install dependencies 
+    - Install application 
+    - but this causes environment problems. 	
+      - Example: Works on developer machine, Fails on server.
+
+- Docker solves this.
+  - Docker packages everything into a container.
+  - Application ->  + Libraries, 
+                  + Dependencies, 
+				  + Runtime
+                ------------------- 
+                  Docker container 
+   - So it runs same everywhere.
+   
+**************************************************************************************
+
+Important docker Components 
+
+1, Docker Image : Blueprint/template used to create containers.
+Example: nginx image, ubuntu image, python image 
+Think like: Image = class container = Objec 
+
+2, Docker Container : running instance of an image.
+Example: docker run nginx 
+Now nginx is running inside a container.
+
+3, Docker Engine : A text file used to build images. 
+Example:
+   FROM ubuntu 
+   RUN apt update 
+   RUN apt install nginx 
+   
+4, Docker Hub 
+Public repository for Docker images.
+Example images: nginx, mysql, redis, and ubuntu. It is provided by Docker Inc. 
+
+
+******************************************************************************************
+
+Most Important Docker Command (Exam) 
+
+1, Run the container 
+   docker run nginx 
+   Meaning : docker -> tool, run -> start container , nginx -> image 
+   
+2, Run container in background 
+   docker run -d nginx 
+   -d = detached mode 
+
+3, List running containers 
+   docker ps 
+
+4, List all containers 
+   docker ps -a 
+
+5, stop container 
+   docker stop <container_id>
+
+******************************************************************************************
+
+Docker Architecture:
+
+Docker Architecture has 4 main components: Docker Client -> Docker Daemon -> Docker Images -> Containers 
+
+1, Docker Client : Command line interface 
+   Example: docker run, docker pull, docker build 
+
+2, Docker Daemon : this is the background service that actually: builds image, runs containers, manage networks, manage volumes. 
+
+3, Docker Registry : A place where images are stored. Example : Docker Hub (public registry)
+
+4, Docker Container : The rnning instance of an image.
+
+Simple Real-World Flow :
+when you run: docker run nginx 
+Flow looks liek this : Docker CLI -> Docker Daemon -> Docker Hub (if image not present) -> Image download -> Container Created
+
+
+************************************************************************************************
+
+Docker Networking: 
+- Docker supports multiple network types.
+- The most important one is : Bridge Network (Default)
+  Bridge Network:
+  - When you start a container normally: docker run nginx
+  - Docker automatically connects it to a bridge network.
+    Container 1 -> Container 2 -> Docker Bridge Network 
+  - Containers in the same bridge network can talk to each other.
+
+- Check networks : docker network ls 
+  Example output:
+  Network ID                  NAME                 DRIVER 
+  abc123                     bridge                bridge 
+  xyz456                     host                  host 
+
+************************************************************************************************  
+
+
+
+
+
+
+
+
+
+      
+
+
+   
+
+				  

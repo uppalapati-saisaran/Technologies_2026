@@ -1,0 +1,193 @@
+Example RHCE Task:
+YAML
+
+- hosts: webservers
+  tasks:
+    - name: Install Apache 
+	  dnf:
+	     name: httpd 
+		state: present 
+	- name: Start service  
+      service:
+         name: httpd 
+        state: started 
+- this is an Ansible playbook.
+
+************************************************************************************************************************
+
+Most Important Linux Commands:
+
+pwd, ls, ls -l. ls -a, cd /etc, cd .., cd , mkdir project, mkdir dir1 dir2 dir3, touch file1.txt , cp file1.txt file2.txt 
+cp -r dir1 dir2, mv file1.txt newfile.txt, mv file.txt /tmp, rm file.txt, rm -r dir1, mkdir -p /home/student/projects,
+touch file1 file2 file3, cp file1 /tmp, mv file2 file2_backup 
+
+User Management:
+
+useradd developer, id developer 
+
+passwd developer 
+
+groupadd devops, cat /etc/group | gre[ devops 
+
+usermod -aG devops developer, groups developer 
+
+mkdir /projects 
+
+chown developer /projects, ls -ld /projects 
+
+chmod 744 /projects , ls -ld /projects 
+
+Very IMPORTANT ( Exam Tip)
+In RHCSA/RHCE exam you must verify everything.
+Common verification commands:
+id , groups, ls -l, cat /etc/passwd, cat /etc/group 
+
+Real Exam Question Example: 
+This is how the EX200 Red Hat Cerfitied System Adminstrator task might look:
+
+Create a user named analyst 
+useradd analyst 
+
+Create a group named research 
+groupadd research 
+
+Add analyst to research group 
+usermod -aG research analyst 
+
+Create directory /data owned by analyst.
+mkdir /data 
+chown analyst /data 
+
+Mini Practice for you:
+Try solving this without looking at answer: 
+Practice Task:
+1, Create user tester 
+   useradd -m tester 
+   
+2, Create group qa 
+   groupadd qa 
+   
+3, Add tester to qa group 
+   usermod -aG qa tester 
+   
+4, Create directory /qa_data 
+   mkdir /qa_data 
+
+5, Make tester owner of /qa_data 
+   chown tester /qa_data 
+   
+***************************************************************************************************************  
+
+File Permissions:
+
+touch report.txt, ls -l 
+
+chmod 740 report.txt, ls -l report.txt 
+
+chmod g+x report.txt, ls -l report.txt 
+
+chmod u-w report.txt, ls -l report.txt 
+
+mkdir shared, chmod 770 shard , ls -ld shared 
+
+Real RHCSA Exam Example: 
+You may see a task like:
+
+create directory /data 
+mkdir /data 
+
+Owner mut have full access 
+chmod 700 /data 
+
+Group must have read and execute 
+chmod 750 /data 
+
+Others mut have no access 
+chmod 750 /data 
+
+Verify: ls -ld /data 
+
+Mini Practice (Solve like exam) 
+Try solving this:
+
+1, Create file audit.log 
+touch audit.log 
+
+2, Owner: read + write 
+   Group: read only 
+   Others: no permission 
+   chmod 640 audit.log 
+   
+******************************************************************************************************
+
+Special Permissions 
+
+SUID - Run program with owner privileges.
+SGID - Files inherit group from directory.
+Stick Bit - Only file owner can delete files.
+
+1, SUID 
+touch script.sh; chmod u+s script.sh, ls -l script.sh 
+_rwsr_xr_r - Notice ths s in owner execute postion.
+           - Meaning: user executing this file runs it as the file owner 
+Example real command using SUID:
+/usr/bin/passwd - the passwd command runs as root even when normal users run it. 
+
+2, SGID 
+mkdir devteam; chmod g+s devteam; ls -ld devteam 
+_rwxrwsr_r - All new files inside the directory inherit the group.
+Example: devteam/file1 devteam/file2 - Both automatically belong to devteam group.
+
+3, Sticky Bit 
+Used for shared directories 
+
+/tmp; ls -ld /tmp; 
+drwxrwxrwt - Users can only delete their files.
+
+Exam Task:  Create shared directory where users can create file sbut cannot delete other's files.
+
+mkdir /shared 
+chmod 1777 /shared 
+ls -ld /shared 
+drwxrwxrwt
+
+Permission   value 
+SUID          4
+SGID          2
+Sticky Bit    1 
+Example chmod 4755 file 
+Meaning : 4 -> SUID, 755 -> normal permissions.
+
+
+
+
+
+	   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+	
